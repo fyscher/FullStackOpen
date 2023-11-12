@@ -1,8 +1,8 @@
 import { useState } from 'react'
 
-const Button = ({handleClick}) => {
+const Button = ({handleClick, text}) => {
   return(
-    <button onClick={handleClick}>New</button>
+    <button onClick={handleClick}>{text}</button>
   );
 }
 
@@ -26,7 +26,9 @@ const App = () =>
       <div>
         {anecdotes[selected]}
       </div>
-      <Button handleClick={()=>{setSelected(Math.floor(Math.random() * anecdotes.length))}}/>
+      <Button handleClick={()=>{setSelected(Math.floor(Math.random() * anecdotes.length))}} text={"new"}/>
+      <Button handleClick={()=>{}} text={"upvote"}/>
+      <br/>
     </div>
   )
 }
