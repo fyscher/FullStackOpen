@@ -6,6 +6,31 @@ const Button = ({handleClick, text}) => {
   );
 }
 
+const Votes = ({votes, anecdotes}) => {
+  const highest = Math.max(...votes)
+  const many = votes.map((m) => {
+    if (m === highest) {
+      console.log(m)
+    } else {
+      console.log('nothing')
+    }
+  })
+
+
+  // look through votes array and select each element that matches 'highest',
+  // then add its index to a new array
+  
+  
+  console.log(votes)
+  console.log("highest: "+highest)
+  console.log(many)
+
+  return(
+    <div>
+      {anecdotes[many]}
+    </div>
+  );
+}
 
 const App = () => 
 {
@@ -22,26 +47,24 @@ const App = () =>
    
   const [selected, setSelected] = useState(0)
   const [votes,       setVotes] = useState(new Uint8Array(8))
-  
+
   const handleVote = () => {
     const copy = [...votes];
-    console.log(copy)
-    console.log(selected)
-    console.log(copy[1])
-    
+    copy[selected] += 1;
+    setVotes(copy)
   }
 
   return (
     <div>
+      <h2>Random Anecdote</h2>
       <div>
         {anecdotes[selected]}
       </div>
       <Button handleClick={()=>{setSelected(Math.floor(Math.random() * anecdotes.length))}} text={"new"}/>
       <Button handleClick={handleVote} text={"upvote"}/>
       <br/>
-      <div>
-        {votes}
-      </div>
+      <h2>Anecdote with the most AnecVotes</h2>
+      <Votes votes={votes} anecdotes={anecdotes}/>
     </div>
   )
 }
