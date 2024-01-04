@@ -8,26 +8,11 @@ const Button = ({handleClick, text}) => {
 
 const Votes = ({votes, anecdotes}) => {
   const highest = Math.max(...votes)
-  const many = votes.map((m) => {
-    if (m === highest) {
-      console.log(m)
-    } else {
-      console.log('nothing')
-    }
-  })
-
-
-  // look through votes array and select each element that matches 'highest',
-  // then add its index to a new array
-  
-  
-  console.log(votes)
-  console.log("highest: "+highest)
-  console.log(many)
+  const top = votes.indexOf(highest);
 
   return(
     <div>
-      {anecdotes[many]}
+      {anecdotes[top]}
     </div>
   );
 }
