@@ -2,11 +2,7 @@ import { useState } from 'react'
 import   Entries    from './components/entries.jsx'
 import   Search     from './components/search.jsx'
 
-const inPersons = (persons, nameObject, ) => {
-
-  const person = persons.find(p => p.name.localeCompare(nameObject, 'en', {sensitivity: 'base'}) === 0)
-  return person
-}
+const searchPersons = (persons, nameObject, ) => persons.find(p => p.name.localeCompare(nameObject, 'en', {sensitivity: 'base'}) === 0)
 
 const App = () => 
 {  
@@ -30,20 +26,25 @@ const App = () =>
   {
     event.preventDefault()
     const nameObject = { name: newName, number: newNumber};
-    console.log(inPersons(persons, nameObject))
-    console.log(nameObject.name)
-    // if (persons.name ===)
-    // !inPersons(persons, nameObject)
-    // ? setPersons(persons.concat(nameObject))
-    // : alert(`${nameObject.name} already exists.`)
+    const person = searchPersons(persons, nameObject.name)
 
-    // setNewName('');
-    // setNewNumber('');
+    if (person) 
+    {
+      alert(`${person.name} already exists`)
+      setNewName('')
+      setNewNumber('')
+    } else 
+    {
+      setPersons(persons.concat(nameObject))
+      alert(`${nameObject.name} added!`)
+      setNewName('')
+      setNewNumber('')
+    }
   }
 
   return (
     <div>
-      <Search persons={persons} inPersons={inPersons}/>
+      <Search persons={persons} inPersons={searchPersons}/>
       <h2>Phonebook</h2>
       <form onSubmit={addEntry}>
         <div>
