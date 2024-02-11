@@ -1,18 +1,21 @@
+import Entry from './entry.jsx'
 
-const Entries = ({persons}) =>
+const Entries = ({
+  showEntries
+}) =>
 {
-  return(
-    <ul>
-      {persons.map((p) =>
-      {
-        return <Entry key={`entry_${p.name}`} 
-                      name={p.name} 
-                      number={p.number}/> 
-      })}
-    </ul>
+  return (
+    <>
+      <h3>Entries:</h3>        
+      <ul>
+        {showEntries.map(person => 
+          <Entry 
+            key={`E_${person.id}`} 
+            name={person.name} 
+            number={person.number} />)}
+      </ul>
+    </>
   )
 }
-
-const Entry = (prop) => {return <li>{prop.name} - {prop.number}</li>}
 
 export default Entries;
