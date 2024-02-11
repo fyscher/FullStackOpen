@@ -1,8 +1,6 @@
 import Entry from './entry.jsx'
 
-const Entries = ({
-  showEntries
-}) =>
+const Entries = ({ showEntries }) =>
 {
   return (
     <>
