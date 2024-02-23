@@ -1,20 +1,15 @@
-import { useState } from 'react'
-import   AddEntry   from './components/addEntry.jsx'
-import   Filter     from './components/filter.jsx'
-import   Entries    from './components/entries.jsx'
+import { useState, useEffect } from 'react'
+import   axios                 from 'axios'
+import   AddEntry              from './components/AddEntry.jsx'
+import   Filter                from './components/filter.jsx'
+import   Entries               from './components/entries.jsx'
 
 const App = () => 
 {
   const [newNumber, setNewNumber] = useState('');
   const [newName,     setNewName] = useState('');
   const [filter,       setFilter] = useState('');
-  const [persons,     setPersons] = useState([
-    { name: 'Arto Hellas',  number: '867-5309' , id: 1},
-    { name: 'Marto Mellas', number: '123-4567' , id: 2},
-    { name: 'Farto Fellas', number: '567-8954' , id: 3},
-    { name: 'Garto Gellas', number: '426-5698' , id: 4},
-    { name: 'Tarto Tellas', number: '741-8523' , id: 5},
-  ]) 
+  const [persons,     setPersons] = useState([]); 
   
   const searchPersons = (persons, nameObject ) => persons.find(p => p.name.localeCompare(nameObject, 'en', {sensitivity: 'base'}) === 0)
   
@@ -46,6 +41,14 @@ const App = () =>
     }
   }
   
+  useEffect(() =>
+  {
+    axios
+      .get('http://localhost:3001/persons')
+      .then( response =>{
+        setPersons(response.data);
+      })
+  }, [])
 
   return ( 
     <div>
