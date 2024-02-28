@@ -34,11 +34,17 @@ const App = () =>
       setNewNumber('')
     } else 
     {
-      setPersons(persons.concat(nameObject))
-      alert(`${nameObject.name} added!`)
-      setNewName('')
-      setNewNumber('')
+      axios
+      .post('http://localhost:3001/persons', nameObject)
+      .then( res => {
+        console.log(res)
+        setPersons(persons.concat(nameObject))
+        alert(`${nameObject.name} added!`)
+        setNewName('')
+        setNewNumber('')
+        })
     }
+        
   }
   
   useEffect(() =>
