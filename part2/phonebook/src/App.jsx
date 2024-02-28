@@ -3,6 +3,7 @@ import   axios                 from 'axios'
 import   AddEntry              from './components/AddEntry.jsx'
 import   Filter                from './components/filter.jsx'
 import   Entries               from './components/entries.jsx'
+import   DelEntry              from './components/DelEntry.jsx'
 
 const App = () => 
 {
@@ -24,7 +25,12 @@ const App = () =>
   const handleNameChange   = event => setNewName(event.target.value)
   const handleNumberChange = event => setNewNumber(event.target.value)
   const handleFilter       = event => setFilter(event.target.value)
-  const handleEntry        = event =>
+
+  const handleDelEntry     = event => {
+
+  }
+
+  const handleAddEntry     = event =>
   {
     event.preventDefault()
     if (searchPersons(persons, newName)) 
@@ -42,9 +48,8 @@ const App = () =>
         alert(`${nameObject.name} added!`)
         setNewName('')
         setNewNumber('')
-        })
+      })
     }
-        
   }
   
   useEffect(() =>
@@ -62,9 +67,13 @@ const App = () =>
       <AddEntry 
         newName={newName}
         newNumber={newNumber}
-        handleEntry={handleEntry}
+        handleAddEntry={handleAddEntry}
         handleNameChange={handleNameChange}
         handleNumberChange={handleNumberChange}
+      />
+      <DelEntry 
+        newName={newName}
+
       />
       <Filter
         showEntries={showEntries}

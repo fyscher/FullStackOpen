@@ -1,7 +1,7 @@
 const AddEntry = ({
     newName,
     newNumber,
-    handleEntry,
+    handleAddEntry,
     handleNameChange,
     handleNumberChange
 }) =>
@@ -9,7 +9,7 @@ const AddEntry = ({
     return (
         <>
             <h3>New Entry:</h3>
-            <form onSubmit={handleEntry}>
+            <form onSubmit={handleAddEntry}>
                 <div>
                 name: <input 
                     value={newName}
