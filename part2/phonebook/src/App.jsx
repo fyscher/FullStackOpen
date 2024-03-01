@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
-import   axios                 from 'axios'
 import   AddEntry              from './components/AddEntry.jsx'
 import   Filter                from './components/filter.jsx'
 import   Entries               from './components/entries.jsx'
 import   DelEntry              from './components/DelEntry.jsx'
+import   personsService        from './services/persons.js'
 
 const App = () => 
 {
@@ -16,12 +16,10 @@ const App = () =>
   
   const showEntries = filter? persons.filter((p) => p.name.toLowerCase().match(filter.toLowerCase())): persons
   
-  const nameObject = { 
+  const newObject = { 
     name:   newName, 
     number: newNumber,
   };
-
-  const baseURL = 'http://localhost:3001/persons'
   
   const handleNameChange   = event => setNewName(event.target.value)
   const handleNumberChange = event => setNewNumber(event.target.value)
@@ -33,15 +31,14 @@ const App = () =>
     const entry = searchPersons(persons, newName)
     if (entry)
     {
-      axios
-        .delete(`${baseURL}/${entry.id}`)
+      personsService
+        .remove(entry.id)
         .then( res =>
           {
             console.log('res: ', res)
-            console.log('res.data: ', res.data)
-            alert(`${newName} was deleted.`)
-            const spliced = persons.splice(persons.indexOf(entry))
+            const spliced = persons.splice(persons.indexOf(entry), 1)
             setPersons(persons)
+            alert(`${res.name} was deleted.`)
             setNewName('')
           }
         )
@@ -51,7 +48,7 @@ const App = () =>
     }
   }
 
-  const handleAddEntry     = event =>
+  const handleAddEntry = event =>
   {
     event.preventDefault()
     if (searchPersons(persons, newName)) 
@@ -61,25 +58,26 @@ const App = () =>
       setNewNumber('')
     } else 
     {
-      axios
-      .post(baseURL, nameObject)
-      .then( res => {
-        console.log('res: ', res)
-        console.log('res.data: ', res.data)
-        setPersons(persons.concat(res.data))
-        alert(`${res.data.name} added!`)
-        setNewName('')
-        setNewNumber('')
-      })
+      personsService
+        .create(newObject)
+        .then( res => 
+          {
+            console.log('res: ', res)
+            setPersons(persons.concat(res))
+            setNewName('')
+            setNewNumber('')
+            alert(`${res.name} added!`)
+          }
+        )
     }
   }
   
   useEffect(() =>
   {
-    axios
-      .get(baseURL)
+    personsService
+      .getAll()
       .then( res =>{
-        setPersons(res.data);
+        setPersons(res);
       })
   }, [])
 
