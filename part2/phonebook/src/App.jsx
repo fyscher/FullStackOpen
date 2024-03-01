@@ -19,15 +19,36 @@ const App = () =>
   const nameObject = { 
     name:   newName, 
     number: newNumber,
-    id:     persons.length + 1
   };
 
+  const baseURL = 'http://localhost:3001/persons'
+  
   const handleNameChange   = event => setNewName(event.target.value)
   const handleNumberChange = event => setNewNumber(event.target.value)
   const handleFilter       = event => setFilter(event.target.value)
-
-  const handleDelEntry     = event => {
-
+  
+  const handleDelEntry     = event => 
+  {
+    event.preventDefault()
+    const entry = searchPersons(persons, newName)
+    if (entry)
+    {
+      axios
+        .delete(`${baseURL}/${entry.id}`)
+        .then( res =>
+          {
+            console.log('res: ', res)
+            console.log('res.data: ', res.data)
+            alert(`${newName} was deleted.`)
+            const spliced = persons.splice(persons.indexOf(entry))
+            setPersons(persons)
+            setNewName('')
+          }
+        )
+    } else 
+    {
+      alert(`Error: cannot delete. Ensure name matches entry exactly.`)
+    }
   }
 
   const handleAddEntry     = event =>
@@ -41,11 +62,12 @@ const App = () =>
     } else 
     {
       axios
-      .post('http://localhost:3001/persons', nameObject)
+      .post(baseURL, nameObject)
       .then( res => {
-        console.log(res)
-        setPersons(persons.concat(nameObject))
-        alert(`${nameObject.name} added!`)
+        console.log('res: ', res)
+        console.log('res.data: ', res.data)
+        setPersons(persons.concat(res.data))
+        alert(`${res.data.name} added!`)
         setNewName('')
         setNewNumber('')
       })
@@ -55,9 +77,9 @@ const App = () =>
   useEffect(() =>
   {
     axios
-      .get('http://localhost:3001/persons')
-      .then( response =>{
-        setPersons(response.data);
+      .get(baseURL)
+      .then( res =>{
+        setPersons(res.data);
       })
   }, [])
 
@@ -72,7 +94,7 @@ const App = () =>
         handleNumberChange={handleNumberChange}
       />
       <DelEntry 
-        newName={newName}
+        handleDelEntry={handleDelEntry}
 
       />
       <Filter

@@ -1,12 +1,8 @@
 const DelEntry = ({
-    newName
+    handleDelEntry
 }) =>
 {
-    return (
-        <>
-            <button>Delete</button>
-        </>
-    )
+    return <button type="button" onClick={handleDelEntry} > Delete</button>
 }
 
 export default DelEntry;
