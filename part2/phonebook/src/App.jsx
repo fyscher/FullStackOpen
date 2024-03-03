@@ -51,11 +51,24 @@ const App = () =>
   const handleAddEntry = event =>
   {
     event.preventDefault()
-    if (searchPersons(persons, newName)) 
+    const entry = searchPersons(persons, newName)
+    if (entry) 
     {
-      alert(`${newName} already exists`)
-      setNewName('')
-      setNewNumber('')
+      if (confirm(`${newName} already exists! Would you like to update the number?`))
+      {
+        personsService
+          .update(entry.id, newObject)
+          .then(res => 
+            {
+              if (entry.id === res.id)
+              {
+                const index = persons.indexOf(entry)
+                persons[index].number = res.number;
+              }
+              setNewName('')
+              setNewNumber('')
+            })
+      }
     } else 
     {
       personsService
