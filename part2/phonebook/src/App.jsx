@@ -15,7 +15,7 @@ const App = () =>
   const [persons,             setPersons] = useState([]); 
   const [statusMessage, setStatusMessage] = useState(null);
   const [errorStatus,     setErrorStatus] = useState('');
-  
+
   const searchPersons = (persons, nameObject ) => persons.find(p => p.name.localeCompare(nameObject, 'en', {sensitivity: 'base'}) === 0)
   
   const showEntries = filter? persons.filter((p) => p.name.toLowerCase().match(filter.toLowerCase())): persons
