@@ -1,4 +1,6 @@
+import './index.css'
 import { useState, useEffect } from 'react'
+import   Notification          from './components/notification.jsx'
 import   AddEntry              from './components/AddEntry.jsx'
 import   Filter                from './components/filter.jsx'
 import   Entries               from './components/entries.jsx'
@@ -7,14 +9,23 @@ import   personsService        from './services/persons.js'
 
 const App = () => 
 {
-  const [newNumber, setNewNumber] = useState('');
-  const [newName,     setNewName] = useState('');
-  const [filter,       setFilter] = useState('');
-  const [persons,     setPersons] = useState([]); 
+  const [newNumber,         setNewNumber] = useState('');
+  const [newName,             setNewName] = useState('');
+  const [filter,               setFilter] = useState('');
+  const [persons,             setPersons] = useState([]); 
+  const [statusMessage, setStatusMessage] = useState(null);
+  const [errorStatus,     setErrorStatus] = useState('');
   
   const searchPersons = (persons, nameObject ) => persons.find(p => p.name.localeCompare(nameObject, 'en', {sensitivity: 'base'}) === 0)
   
   const showEntries = filter? persons.filter((p) => p.name.toLowerCase().match(filter.toLowerCase())): persons
+
+  const notify = (label, message) =>
+  {
+    setErrorStatus(label);
+    setStatusMessage(message);
+    setTimeout(() => {setStatusMessage(null)}, 1000);
+  }
   
   const newObject = { 
     name:   newName, 
@@ -36,10 +47,15 @@ const App = () =>
         .then( res =>
           {
             console.log('res: ', res)
-            const spliced = persons.splice(persons.indexOf(entry), 1)
-            setPersons(persons)
-            alert(`${res.name} was deleted.`)
+            setPersons(persons.filter(p => p.id != entry.id))
+            notify('success', `${res.name} was deleted.`)
             setNewName('')
+          }
+        ).catch(error => 
+          {
+            console.log(error)
+            notify('error', `${entry.name} has already been deleted.`)
+            setPersons(persons.filter(p => p.id != entry.id))
           }
         )
     } else 
@@ -59,29 +75,40 @@ const App = () =>
         personsService
           .update(entry.id, newObject)
           .then(res => 
-            {
-              if (entry.id === res.id)
-              {
-                const index = persons.indexOf(entry)
-                persons[index].number = res.number;
-              }
-              setNewName('')
-              setNewNumber('')
-            })
+          {
+          if (entry.id === res.id)
+          {
+            const index = persons.indexOf(entry)
+            persons[index].number = res.number;
+            notify('success', `${res.name} updated!`)
+            setNewName('')
+            setNewNumber('')
+          }})
+          .catch( error => 
+          {
+            console.log(error)
+            notify('error', `${res.name} cannot be updated.`)
+          }
+        )
       }
     } else 
     {
       personsService
-        .create(newObject)
-        .then( res => 
-          {
-            console.log('res: ', res)
-            setPersons(persons.concat(res))
-            setNewName('')
-            setNewNumber('')
-            alert(`${res.name} added!`)
-          }
-        )
+      .create(newObject)
+      .then( res => 
+        {
+          console.log('res: ', res)
+          setPersons(persons.concat(res))
+          notify('success', `${res.name} has been added!`)
+          setNewName('')
+          setNewNumber('')
+        }
+      ).catch( error =>
+        {
+          console.log(error)
+          notify('error', `${res.name} cannot be added.`)
+        }
+      )
     }
   }
   
@@ -96,6 +123,10 @@ const App = () =>
 
   return ( 
     <div>
+      <Notification 
+      message={statusMessage}
+      errorStatus={errorStatus}
+      />
       <h2>Phonebook</h2>
       <AddEntry 
         newName={newName}
