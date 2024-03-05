@@ -10,16 +10,11 @@ const App = () =>
 
   const handleSearch = event => setSearch(event.target.value);
 
-  
   useEffect(() =>
   {
-    // if (!countries)
-    // {
-
-      countriesService
+    countriesService
       .getAll()
       .then( res => setCountries(res))
-    // }
   }, [])
 
   return(
