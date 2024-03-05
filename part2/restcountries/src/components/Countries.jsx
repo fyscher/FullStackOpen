@@ -1,10 +1,10 @@
 import Country from "./Country";
 
-const Countries = ({ countries }) =>
+const Countries = ({ showCountries }) =>
 {
     return ( 
         <ul>
-            {countries.map( c =>
+            {showCountries.map( c =>
                 <Country
                     key={`C_${c.name.common}`}
                     name={c.name.common}

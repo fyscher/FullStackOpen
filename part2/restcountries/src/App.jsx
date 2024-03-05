@@ -5,8 +5,10 @@ import   Countries             from './components/Countries.jsx'
 
 const App = () =>
 {
-  const [countries, setCountries] = useState([]);
-  const [search,       setSearch] = useState('');
+  const [countries,       setCountries] = useState([]);
+  const [search,             setSearch] = useState('');
+
+  const showCountries = search? countries.filter(c => c.name.common.toLowerCase().match(search.toLowerCase())): countries
 
   const handleSearch = event => setSearch(event.target.value);
 
@@ -17,6 +19,8 @@ const App = () =>
       .then( res => setCountries(res))
   }, [])
 
+  console.log('countries: ', countries)
+  console.log('showCountries: ', showCountries)
   return(
     <>
       <Search 
@@ -24,7 +28,7 @@ const App = () =>
         handleSearch={handleSearch}
       />
       <Countries
-        countries={countries}
+        showCountries={showCountries}
       />
     </>
   )
