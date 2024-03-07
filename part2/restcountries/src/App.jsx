@@ -29,6 +29,7 @@ const App = () =>
       />
       <Countries
         showCountries={showCountries}
+        search={search}
       />
     </>
   )

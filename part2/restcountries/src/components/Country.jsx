@@ -1,3 +1,3 @@
-const Country = (prop) => {return <li>{prop.name}</li>}
+const Country = (prop) => {return <li key={prop.id} >{prop.name}</li>}
 
 export default Country;
