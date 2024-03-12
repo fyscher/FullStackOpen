@@ -19,7 +19,22 @@ const Countries = ({ showCountries, search }) =>
 
     if (showCountries.length === 1)
     {
-        return <p>SUCCESSSSSS</p>
+        const langKeys = Object.keys(showCountries[0].languages)
+        return (
+            // Capital city, area, languages spoken, flag
+            <>
+                <p>Capital City: {showCountries[0].capital[0]}</p>
+                <p>Total Area: {showCountries[0].area}</p>
+                <p>Official Languages: </p>
+                <ul>
+                    {langKeys.map((l) => {
+                        console.log('l ',l)
+                        return <li>{showCountries[0].languages[l]}</li>})}
+                </ul>
+                {console.log(showCountries[0].flag)}
+                <h1>{showCountries[0].flag}</h1>
+            </> 
+        )
     }
 
     if (showCountries.length < 10)
