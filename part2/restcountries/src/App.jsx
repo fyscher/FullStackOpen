@@ -15,25 +15,48 @@ const App = () =>
   const handleCard = event => 
   {
     event.preventDefault()
-    console.log('clicked')
-    // const langKeys = Object.keys(showCountries[0].languages)
-    // return (
-    //   // Capital city, area, languages spoken, flag
-    //   <>
-    //     <h2>Country Name: {showCountries[0].name.common}</h2>
-    //     <p>Capital City: {showCountries[0].capital[0]}</p>
-    //     <p>Total Area: {showCountries[0].area}</p>
-    //     <p>Official Languages: </p>
-    //     <ul>
-    //       {langKeys.map((l) => {
-    //           console.log('l ',l)
-    //           return <li key={`l_${l}`}>{showCountries[0].languages[l]}</li>})}
-    //     </ul>
-        
-    //     {console.log(showCountries[0].flag)}
-    //     <h1>{showCountries[0].flag}</h1>
-    //   </> 
-    // )
+    const result = showCountries.find(c => c.cca3 === event.target.id.split('_')[1])
+
+    console.log('event target id ', event.target.id)
+    console.log('getElementByID ', document.getElementById(event.target.id))
+    console.log('showcountries', showCountries)
+    console.log('split( _ )[1] ', event.target.id.split('_')[1])
+    console.log('find', showCountries.find(c => c.cca3 === event.target.id.split('_')[1]))
+
+    return (
+      <div id={event.target.id}>
+        <h3>Country Name: {result.name.common}</h3>
+        <p>Capital City: {result.capital[0]}</p>
+        <p>Total Area:   {result.area}</p>
+        <p>Official Languages: </p>
+        <ul>
+          {Object.keys(result.languages).map((l) => {
+              console.log('l ',l)
+              return <li key={`l_${l}`}>{result.languages[l]}</li>})}
+        </ul>
+          
+        {console.log(result.flag)}
+        <h1>{result.flag}</h1>  
+      </div>
+    )
+      
+      // setCard(
+      //   // Capital city, area, languages spoken, flag
+      //   <>
+      //     <h3>Country Name: {showCountries[0].name.common}</h3>
+      //     <p>Capital City: {showCountries[0].capital[0]}</p>
+      //     <p>Total Area: {showCountries[0].area}</p>
+      //     <p>Official Languages: </p>
+      //     <ul>
+      //       {Object.keys(showCountries[0].languages).map((l) => {
+      //           console.log('l ',l)
+      //           return <li key={`l_${l}`}>{showCountries[0].languages[l]}</li>})}
+      //     </ul>
+          
+      //     {console.log(showCountries[0].flag)}
+      //     <h1>{showCountries[0].flag}</h1>
+      //   </> 
+      // )
   }
 
   useEffect(() =>
@@ -43,8 +66,6 @@ const App = () =>
       .then( res => setCountries(res))
   }, [])
 
-  console.log('countries: ', countries)
-  console.log('showCountries: ', showCountries)
   return(
     <>
       <Search 

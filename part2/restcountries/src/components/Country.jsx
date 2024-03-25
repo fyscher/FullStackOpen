@@ -1,12 +1,11 @@
-import ShowButton from "./ShowButton";
-
 const Country = ({id, name, handleCard}) => 
 {
-    return ( // make a state in App.jsx then return state with a bunch of new info?
-        <li key={id}>
+    return ( 
+        <li id={id}>
             {name}
-            <ShowButton handleCard={handleCard}/>
-        </li>  
+            <button id={id} onClick={handleCard}>Show</button>
+            <div id={id}></div>
+        </li>
     )
 }
 

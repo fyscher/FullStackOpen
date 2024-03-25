@@ -19,6 +19,7 @@ const Countries = ({ showCountries, search, handleCard }) =>
 
     else
     {
+        console.log('showCountries', showCountries)
         return (
             <ul>
                 {showCountries.map( c =>
