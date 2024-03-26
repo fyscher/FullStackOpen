@@ -1,6 +1,6 @@
 import Country from "./Country";
 
-const Countries = ({ showCountries, search, handleCard }) =>
+const Countries = ({ showCountries, search, show, info, handleClick }) =>
 {
     if (!search)
     {
@@ -27,7 +27,9 @@ const Countries = ({ showCountries, search, handleCard }) =>
                         id={`id_${c.cca3}`}
                         key={`k_${c.cca3}`}
                         name={c.name.common}
-                        handleCard={handleCard}
+                        show={show}
+                        info={info}
+                        handleClick={handleClick}
                     />
                 )}
             </ul>
