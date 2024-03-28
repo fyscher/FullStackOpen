@@ -1,24 +1,24 @@
-const Country = ({id, name, info, show, handleClick}) => 
+const Country = ({id, name, handleClick, c, toggle}) => 
 {
     return ( 
         <li id={id}>
-            {show
-                ?<div>
-                    <h3>Country Name:{info.name.common}</h3>
-                    <p>Capital City: {info.capital[0]}</p>
-                    <p>Total Area:   {info.area}</p>
-                    <p>Official Languages: </p>
-                    <ul>
-                    {Object.keys(info.languages).map((l) => {
-                        console.log('l ',l)
-                        return <li key={`l_${l}`}>{info.languages[l]}</li>})}
-                    </ul>
-                    
-                    {console.log(info.flag)}
-                    <h1>{info.flag}</h1>  
-                </div>
-                :name}
-            <button id={id} onClick={handleClick}>Show</button>
+            {toggle[id]
+            ?<div>
+                <h3>Country Name: {c.name.common}</h3>
+                <p>Capital City: {c.capital[0]}</p>
+                <p>Total Area:   {c.area}</p>
+                <p>Official Languages: </p>
+                <ul>
+                {Object.keys(c.languages).map((l) => {
+                    console.log('l ',l)
+                    return <li key={`l_${l}`}>{c.languages[l]}</li>})}
+                </ul>
+                
+                {console.log(c.flag)}
+                <h1>{c.flag}</h1>  
+            </div>
+            :name}
+            <button id={id} onClick={handleClick}>Toggle Info</button>
         </li>
     )
 }

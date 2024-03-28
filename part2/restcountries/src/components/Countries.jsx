@@ -1,6 +1,6 @@
 import Country from "./Country";
 
-const Countries = ({ showCountries, search, show, info, handleClick }) =>
+const Countries = ({ showCountries, search, toggle, handleClick }) =>
 {
     if (!search)
     {
@@ -19,17 +19,16 @@ const Countries = ({ showCountries, search, show, info, handleClick }) =>
 
     else
     {
-        console.log('showCountries', showCountries)
         return (
             <ul>
                 {showCountries.map( c =>
                     <Country
-                        id={`id_${c.cca3}`}
-                        key={`k_${c.cca3}`}
+                        id={c.cca3}
+                        key={c.cca3}
                         name={c.name.common}
-                        show={show}
-                        info={info}
                         handleClick={handleClick}
+                        c={c}
+                        toggle={toggle}
                     />
                 )}
             </ul>
