@@ -11,15 +11,17 @@ const App = () =>
   const [toggle,       setToggle] = useState({});
   const [weather,     setWeather] = useState({});
 
-  const showCountries = search? countries.filter(c => c.name.common.toLowerCase().match(search.toLowerCase())): countries
+  const showCountries = search? countries.filter(c => c.name.common.toLowerCase().match(search.toLowerCase())): countries;
   
   const handleSearch = event => setSearch(event.target.value);
-  const handleClick  = event => {
+  const handleClick  = event => 
+  {
     handleToggle(event.target.id);
     handleWeather(event.target.id, event.target.value);
   }
 
-  const handleToggle = id => {
+  const handleToggle = id => 
+  {
     setToggle({
       ...toggle,
       [id]: !toggle[id],
@@ -32,11 +34,10 @@ const App = () =>
       .getWeather(city)
       .then(res => 
         {
-          console.log('res ', res)
           setWeather({
             ...weather,
             [id]: res
-          })
+          });
         }
       )
   }
