@@ -1,20 +1,23 @@
 import { useState, useEffect } from 'react'
 import   countriesService      from './services/restcountries.js'
-import   openweather           from './services/openweather.js'
 import   Search                from './components/Search.jsx'
 import   Countries             from './components/Countries.jsx'
+import   openweather           from './services/openweather.js'
 
 const App = () =>
 {
   const [countries, setCountries] = useState([]);
   const [search,       setSearch] = useState('');
   const [toggle,       setToggle] = useState({});
-  const [weather,     setWeather] = useState();
+  const [weather,     setWeather] = useState({});
 
   const showCountries = search? countries.filter(c => c.name.common.toLowerCase().match(search.toLowerCase())): countries
   
   const handleSearch = event => setSearch(event.target.value);
-  const handleClick  = event => handleToggle(event.target.id);
+  const handleClick  = event => {
+    handleToggle(event.target.id);
+    handleWeather(event.target.id, event.target.value);
+  }
 
   const handleToggle = id => {
     setToggle({
@@ -23,19 +26,28 @@ const App = () =>
     });
   }
   
-
+  const handleWeather = (id, city) =>
+  {
+    openweather
+      .getWeather(city)
+      .then(res => 
+        {
+          console.log('res ', res)
+          setWeather({
+            ...weather,
+            [id]: res
+          })
+        }
+      )
+  }
+  
   useEffect(() =>
   {
     countriesService
       .getAll()
       .then( res => setCountries(res))
-
-    openweather
-      .getCords('Edmonton')
-      .then(res => setWeather(res))
   }, [])
 
-  console.log('weather ', weather)
 
   return(
     <>
@@ -48,6 +60,7 @@ const App = () =>
         search={search}
         handleClick={handleClick}
         toggle={toggle}
+        weather={weather}
       />
     </>
   )

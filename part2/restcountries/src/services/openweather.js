@@ -2,13 +2,12 @@ import axios from 'axios';
 
 const api_key = import.meta.env.VITE_API_KEY
 
-const geoURL = 'https://api.openweathermap.org/geo/1.0/direct?'
+const baseURL = 'https://api.openweathermap.org/data/2.5/weather?'
 
-const getCords = (city) =>
+const getWeather = (city) =>
 {
-    //get coordinates of city
-    const req = axios.get(`${geoURL}q=${city}&appid=${api_key}`);
+    const req = axios.get(`${baseURL}q=${city}&appid=${api_key}&units=metric`);
     return req.then(res => res.data)
 }
 
-export default { getCords };
+export default { getWeather };

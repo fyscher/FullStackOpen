@@ -1,6 +1,6 @@
 import Country from "./Country";
 
-const Countries = ({ showCountries, search, toggle, handleClick }) =>
+const Countries = ({ showCountries, search, toggle, handleClick, weather }) =>
 {
     if (!search)
     {
@@ -29,6 +29,7 @@ const Countries = ({ showCountries, search, toggle, handleClick }) =>
                         handleClick={handleClick}
                         c={c}
                         toggle={toggle}
+                        weather={weather}
                     />
                 )}
             </ul>
