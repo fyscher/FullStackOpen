@@ -46,15 +46,14 @@ const App = () =>
         .remove(entry.id)
         .then( res =>
           {
-            console.log('res: ', res)
             setPersons(persons.filter(p => p.id != entry.id))
-            notify('success', `${res.name} was deleted.`)
+            notify('success', `${newName} was deleted.`)
             setNewName('')
           }
         ).catch(error => 
           {
             console.log(error)
-            notify('error', `${entry.name} has already been deleted.`)
+            notify('error', `${newName} has already been deleted.`)
             setPersons(persons.filter(p => p.id != entry.id))
           }
         )
@@ -80,14 +79,14 @@ const App = () =>
           {
             const index = persons.indexOf(entry)
             persons[index].number = res.number;
-            notify('success', `${res.name} updated!`)
+            notify('success', `${newName} updated!`)
             setNewName('')
             setNewNumber('')
           }})
           .catch( error => 
           {
             console.log(error)
-            notify('error', `${res.name} cannot be updated.`)
+            notify('error', `${newName} cannot be updated.`)
           }
         )
       }
@@ -99,14 +98,14 @@ const App = () =>
         {
           console.log('res: ', res)
           setPersons(persons.concat(res))
-          notify('success', `${res.name} has been added!`)
+          notify('success', `${newName} has been added!`)
           setNewName('')
           setNewNumber('')
         }
       ).catch( error =>
         {
           console.log(error)
-          notify('error', `${res.name} cannot be added.`)
+          notify('error', `${newName} cannot be added.`)
         }
       )
     }
