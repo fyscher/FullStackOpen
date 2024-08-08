@@ -24,7 +24,7 @@ const App = () =>
   {
     setErrorStatus(label);
     setStatusMessage(message);
-    setTimeout(() => {setStatusMessage(null)}, 1000);
+    setTimeout(() => {setStatusMessage(null)}, 5000);
   }
   
   const newObject = { 
@@ -86,7 +86,7 @@ const App = () =>
           .catch( error => 
           {
             console.log(error)
-            notify('error', `${newName} cannot be updated.`)
+            notify('error', `${newName} cannot be updated. ${error.response.data.error}.`)
           }
         )
       }
@@ -104,8 +104,8 @@ const App = () =>
         }
       ).catch( error =>
         {
-          console.log(error)
-          notify('error', `${newName} cannot be added.`)
+          console.log(error.number)
+          notify('error', `${newName} cannot be added. ${error.response.data.error}.`) //switch statement for number format error?
         }
       )
     }
